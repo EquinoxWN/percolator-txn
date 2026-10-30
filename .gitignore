@@ -1,0 +1,24 @@
+.DS_Store
+.env
+.idea/
+.vscode/
+*.log
+/bin/
+*.test
+*.out
+coverage.*
+
+# Claude Code files (never committed)
+.claude/
+CLAUDE.local.md
+CLAUDE.md
+.mcp.json
+
+# Local tool caches (kept inside the repo)
+.tmp/
+.venv/
+.npm-cache/
+.m2/
+.gocache/
+.gomodcache/
+/data/

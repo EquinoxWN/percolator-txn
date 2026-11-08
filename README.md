@@ -19,7 +19,7 @@ and checks every lock:
 
 ![demo and contention run](docs/proof/demo.jpg)
 
-gofmt and go vet are clean, all 30 tests pass, and govulncheck finds no vulnerabilities
+gofmt and go vet are clean, all 31 tests pass (the screenshot is from the M1 run with 30), and govulncheck finds no vulnerabilities
 affecting the code with Go 1.26.10, the version CI uses:
 
 ![gofmt, go vet, go test and govulncheck output](docs/proof/tests.jpg)
@@ -126,14 +126,16 @@ DMAIC table in [docs/results/m1.md](docs/results/m1.md).
 
 | Test file | Tests | What it proves |
 |---|---|---|
-| `internal/oracle/oracle_test.go` | 6 | Strictly increasing and unique timestamps: 100,000 sequential, 8 x 10,000 concurrent, clock going back 500 s, logical overflow, restart floor |
+| `internal/oracle/oracle_test.go` | 7 | Strictly increasing and unique timestamps: 100,000 sequential, 8 x 10,000 concurrent, clock going back 500 s, logical overflow, restart floor; an oversized logical part never spills into the physical bits |
+
+Quality check against the 10 engineering rules, with the mutation table: [docs/quality/2026-11-01.md](docs/quality/2026-11-01.md).
 | `internal/mvcc/store_test.go` | 13 | Snapshot reads, delete visibility, lock blocking rules, write-conflict and lock-conflict detection, idempotent retry, safe release, input bounds, ordered history, copied values, 200 random histories x 400 ops against a reference model, 16 goroutines racing for 32 rows |
 | `percolator_test.go` | 8 | Transactions read their start snapshot and their own writes, every key locked under the smallest key as primary, aborted prewrites release their locks, lifecycle and the 10,000-mutation bound, 20 seeds of concurrent transfers |
 | `cmd/percolator-txn/main_test.go` | 3 | Demo output covers every M1 step, contention invariants hold, bad arguments refused |
 
 | Check | Result |
 |---|---|
-| Tests | 30 passed, 0 failed |
+| Tests | 31 passed, 0 failed |
 | gofmt, go vet | clean |
 | govulncheck v1.8.0 (Go 1.26.10) | No vulnerabilities found |
 | Random histories vs SI model | 200 x 400 operations, 0 mismatches |

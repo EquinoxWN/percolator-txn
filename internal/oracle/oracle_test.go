@@ -122,3 +122,10 @@ func TestComposeRoundTrip(t *testing.T) {
 		t.Fatalf("round trip failed: %d/%d", Physical(ts).UnixMilli(), Logical(ts))
 	}
 }
+
+func TestComposeKeepsAnOversizedLogicalOutOfThePhysicalBits(t *testing.T) {
+	ts := Compose(1_000, 1<<LogicalBits+3)
+	if ts>>LogicalBits != 1_000 || Logical(ts) != 3 {
+		t.Fatalf("Compose(1000, 2^%d+3) = physical %d logical %d, want 1000 and 3", LogicalBits, ts>>LogicalBits, Logical(ts))
+	}
+}

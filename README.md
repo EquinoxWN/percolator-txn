@@ -20,7 +20,7 @@ and checks every lock:
 ![demo and contention run](docs/proof/demo.jpg)
 
 gofmt and go vet are clean, all 31 tests pass (the screenshot is from the M1 run with 30), and govulncheck finds no vulnerabilities
-affecting the code with Go 1.26.10, the version CI uses:
+affecting the code with Go 1.26.11, the version CI uses:
 
 ![gofmt, go vet, go test and govulncheck output](docs/proof/tests.jpg)
 
@@ -96,7 +96,7 @@ In M1 specifically:
 
 ## Run it
 
-Needs Go 1.23 or newer (CI uses 1.26.10).
+Needs Go 1.23 or newer (CI uses 1.26.11).
 
 ```bash
 make test      # all tests with the race detector (needs cgo; `make test-norace` otherwise)
@@ -120,8 +120,8 @@ res, err := txn.Prewrite() // res.Primary == "alice"; conflicts abort and releas
 
 ## Tests and results
 
-Latest local run (Intel Core i7-13700H, Windows 11): lint, tests and govulncheck re-run with Go 1.26.10 on
-2026-10-30; the contention run and benchmarks were recorded with Go 1.26.9. Full detail, every test and the
+Latest local run (Intel Core i7-13700H, Windows 11): lint, tests and govulncheck re-run with Go 1.26.11 on
+2026-11-15; the contention run and benchmarks were recorded with Go 1.26.9. Full detail, every test and the
 DMAIC table in [docs/results/m1.md](docs/results/m1.md).
 
 | Test file | Tests | What it proves |
@@ -137,7 +137,7 @@ Quality check against the 10 engineering rules, with the mutation table: [docs/q
 |---|---|
 | Tests | 31 passed, 0 failed |
 | gofmt, go vet | clean |
-| govulncheck v1.8.0 (Go 1.26.10) | No vulnerabilities found |
+| govulncheck v1.8.0 (Go 1.26.11) | No vulnerabilities found |
 | Random histories vs SI model | 200 x 400 operations, 0 mismatches |
 | Contention run (8 clients, 20,000 transfers, 1,000 accounts) | 487 prewritten, 19,513 refused by locks, 974 locks held, invariants OK |
 | Timestamp `Next` | 114 ns (one caller), 196 ns (20 threads) |
